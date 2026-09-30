@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aarambh 2026 | College Fest Portal</title>
+<style>
+:root {
+  --ink: #1d1b3a;
+  --paper: #fbfaf7;
+  --card: #ffffff;
+  --accent: #e4572e;
+  --teal: #0f7c80;
+  --gold: #f2a007;
+  --line: #dcd8cf;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  font-family: "Segoe UI", system-ui, Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--teal); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.container { width: min(1100px, 92%); margin: 0 auto; }
+.section { padding: 3rem 0 1rem; }
+h1, h2, h3 { line-height: 1.2; }
+h2 { font-size: 1.8rem; margin-bottom: 1.2rem; }
+.sr { position: absolute; left: -9999px; }
+
+/* Header */
+.site-header { position: sticky; top: 0; z-index: 10; background: var(--ink); }
+.bar { display: flex; align-items: center; justify-content: space-between; min-height: 60px; }
+.logo { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.3rem; }
+.logo span { color: var(--gold); }
+.nav { display: flex; gap: 1.4rem; }
+.nav a { color: #e9e7f5; text-decoration: none; padding: 0.4rem 0; }
+.nav a:hover { color: var(--gold); }
+.menu-btn { display: none; background: none; border: 1px solid #fff; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; font-size: 1rem; min-height: 44px; }
+
+/* Hero */
+.hero { background: var(--ink); color: #fff; padding: 4.5rem 0 4rem; border-bottom: 6px solid var(--accent); }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.6rem); max-width: 16ch; margin-bottom: 1rem; }
+.hero p { max-width: 55ch; margin-bottom: 1.8rem; color: #d8d5ee; }
+
+/* Buttons */
+.btn { display: inline-block; background: var(--accent); color: #fff; border: 2px solid var(--accent); padding: 0.75rem 1.5rem; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; min-height: 44px; margin-right: 0.5rem; }
+.btn:hover { filter: brightness(0.92); }
+.btn-ghost { background: transparent; border-color: #fff; }
+.btn-small { padding: 0.5rem 1.1rem; margin: 0; }
+
+/* Announcements */
+.announce { list-style: none; border-left: 4px solid var(--gold); padding-left: 1rem; margin-bottom: 1rem; }
+.announce li { padding: 0.3rem 0; }
+.inline-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.inline-form input { flex: 1 1 220px; }
+
+/* Filters */
+.filters { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.4rem; }
+.chip { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 0.5rem 1.1rem; border-radius: 999px; cursor: pointer; font-size: 1rem; min-height: 44px; }
+.chip.active { background: var(--ink); color: #fff; }
+
+/* Event cards */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.card h3 { font-size: 1.15rem; }
+.tag { align-self: flex-start; font-size: 0.85rem; padding: 0.1rem 0.6rem; border-radius: 999px; background: #e3f2f2; color: var(--teal); }
+.card .meta { font-size: 0.92rem; color: #55526e; }
+.card p { flex: 1; }
+.card .btn { align-self: flex-start; margin: 0; }
+
+/* Table */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+table { width: 100%; border-collapse: collapse; min-width: 480px; }
+th, td { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); }
+th { background: var(--ink); color: #fff; }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
+.tile { aspect-ratio: 4 / 3; border-radius: var(--radius); display: flex; align-items: flex-end; padding: 0.7rem; color: #fff; font-weight: 600; background-size: cover; background-position: center; }
+.tile span { background: rgba(0, 0, 0, 0.55); padding: 0.15rem 0.6rem; border-radius: 6px; font-size: 0.9rem; }
+
+/* Forms */
+.form { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; max-width: 640px; }
+.field { margin-bottom: 1rem; flex: 1; }
+.row { display: flex; gap: 1rem; }
+label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+input, select, textarea { width: 100%; padding: 0.65rem 0.8rem; border: 1px solid #aaa6bd; border-radius: 8px; font: inherit; background: #fff; min-height: 44px; }
+input.invalid, select.invalid, textarea.invalid { border-color: #b3261e; }
+.error { display: block; color: #b3261e; min-height: 1.1em; font-size: 0.88rem; }
+.success { margin-top: 1rem; padding: 0.9rem 1rem; background: #e5f5ea; border: 1px solid #2e7d4f; border-radius: 8px; color: #1b5a36; }
+.two-col { display: grid; grid-template-columns: 1fr 1.3fr; gap: 2rem; align-items: start; }
+address { font-style: normal; }
+address p { margin-bottom: 1rem; }
+
+/* Footer */
+.site-footer { margin-top: 3rem; background: var(--ink); color: #d8d5ee; padding: 1.5rem 0; text-align: center; font-size: 0.92rem; }
+
+/* Tablet */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .menu-btn { display: block; }
+  .nav { display: none; position: absolute; top: 60px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--ink); padding: 0.5rem 4%; }
+  .nav.open { display: flex; }
+  .nav a { padding: 0.8rem 0; border-bottom: 1px solid #36335a; }
+  .grid { grid-template-columns: 1fr; }
+  .row { flex-direction: column; gap: 0; }
+  .hero { padding: 3rem 0; }
+  h2 { font-size: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container bar">
+    <a href="#home" class="logo">Aarambh <span>2026</span></a>
+    <button id="menuBtn" class="menu-btn" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+    <nav id="nav" class="nav" aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#events">Events</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#register">Registration</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="home" class="hero">
+    <div class="container">
+      <h1>Three days. Twenty events. One campus.</h1>
+      <p>Aarambh is the annual inter-department festival of Your College Name. Compete, perform, build and watch from 12 to 14 November 2026.</p>
+      <a href="#register" class="btn">Register now</a>
+      <a href="#events" class="btn btn-ghost">See events</a>
+    </div>
+  </section>
+
+  <section class="container section" aria-labelledby="annTitle">
+    <h2 id="annTitle">Latest announcements</h2>
+    <ul id="announcements" class="announce"></ul>
+    <form id="announceForm" class="inline-form">
+      <label for="announceText" class="sr">New announcement</label>
+      <input type="text" id="announceText" placeholder="Type an announcement (admin)">
+      <button type="submit" class="btn btn-small">Post</button>
+    </form>
+  </section>
+
+  <section id="events" class="container section">
+    <h2>Events</h2>
+    <div class="filters" id="filters" role="group" aria-label="Filter events by category">
+      <button class="chip active" data-cat="All">All</button>
+      <button class="chip" data-cat="Technical">Technical</button>
+      <button class="chip" data-cat="Cultural">Cultural</button>
+      <button class="chip" data-cat="Sports">Sports</button>
+    </div>
+    <div id="eventGrid" class="grid"></div>
+  </section>
+
+  <section id="schedule" class="container section">
+    <h2>Schedule</h2>
+    <div class="table-wrap">
+      <table>
+        <caption class="sr">Festival schedule</caption>
+        <thead><tr><th>Date</th><th>Time</th><th>Event</th><th>Venue</th></tr></thead>
+        <tbody id="scheduleBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="gallery" class="container section">
+    <h2>Gallery</h2>
+    <div class="gallery" id="galleryGrid"></div>
+  </section>
+
+  <section id="register" class="container section">
+    <h2>Event registration</h2>
+    <form id="regForm" class="form" novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" autocomplete="name">
+        <small class="error" id="nameErr"></small>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email">
+        <small class="error" id="emailErr"></small>
+      </div>
+      <div class="field">
+        <label for="mobile">Mobile number</label>
+        <input type="tel" id="mobile" name="mobile" inputmode="numeric" maxlength="10" autocomplete="tel">
+        <small class="error" id="mobileErr"></small>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="dept">Department</label>
+          <select id="dept">
+            <option value="">Select department</option>
+            <option>AIML</option><option>CSE</option><option>ECE</option>
+            <option>EEE</option><option>Mechanical</option><option>Civil</option>
+          </select>
+          <small class="error" id="deptErr"></small>
+        </div>
+        <div class="field">
+          <label for="year">Year</label>
+          <select id="year">
+            <option value="">Select year</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+          </select>
+          <small class="error" id="yearErr"></small>
+        </div>
+      </div>
+      <div class="field">
+        <label for="eventSelect">Event</label>
+        <select id="eventSelect"><option value="">Select event</option></select>
+        <small class="error" id="eventErr"></small>
+      </div>
+      <button type="submit" class="btn">Register</button>
+      <div id="regSuccess" class="success" role="status" aria-live="polite" hidden></div>
+    </form>
+  </section>
+
+  <section id="contact" class="container section">
+    <h2>Contact</h2>
+    <div class="two-col">
+      <address>
+        <p><strong>Aarambh Organising Committee</strong><br>Your College Name, City, State - 000000</p>
+        <p>Email: <a href="mailto:aarambh@yourcollege.edu">aarambh@yourcollege.edu</a><br>
+        Phone: +91 98765 43210</p>
+        <p>Office hours: Mon to Fri, 10 am to 4 pm</p>
+      </address>
+      <form id="contactForm" class="form" novalidate>
+        <div class="field">
+          <label for="cName">Your name</label>
+          <input type="text" id="cName">
+          <small class="error" id="cNameErr"></small>
+        </div>
+        <div class="field">
+          <label for="cEmail">Email</label>
+          <input type="email" id="cEmail">
+          <small class="error" id="cEmailErr"></small>
+        </div>
+        <div class="field">
+          <label for="cMsg">Message</label>
+          <textarea id="cMsg" rows="4"></textarea>
+          <small class="error" id="cMsgErr"></small>
+        </div>
+        <button type="submit" class="btn">Send message</button>
+        <div id="contactSuccess" class="success" role="status" aria-live="polite" hidden></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Aarambh 2026, organised by Your College Name.</p>
+    <p>&copy; 2026 Your College Name. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ---------- Data (edit these to update the portal) ----------
+const events = [
+  { id: 1, name: "Code Sprint", category: "Technical", date: "12 Nov 2026", time: "10:00 AM", venue: "Computer Lab 1", desc: "Solve timed programming problems, solo or in pairs." },
+  { id: 2, name: "AI Hackathon", category: "Technical", date: "12 Nov 2026", time: "1:00 PM", venue: "Seminar Hall", desc: "Build a working ML prototype in six hours." },
+  { id: 3, name: "Robo Race", category: "Technical", date: "13 Nov 2026", time: "10:00 AM", venue: "Workshop Ground", desc: "Line-following robots race on a timed track." },
+  { id: 4, name: "Battle of Bands", category: "Cultural", date: "13 Nov 2026", time: "5:00 PM", venue: "Open Air Theatre", desc: "Live music contest between department bands." },
+  { id: 5, name: "Group Dance", category: "Cultural", date: "14 Nov 2026", time: "11:00 AM", venue: "Main Auditorium", desc: "Teams of 6 to 12 perform a five-minute routine." },
+  { id: 6, name: "Inter-Department Cricket", category: "Sports", date: "13 Nov 2026", time: "8:00 AM", venue: "College Ground", desc: "Knockout T10 matches between departments." },
+  { id: 7, name: "Badminton Doubles", category: "Sports", date: "14 Nov 2026", time: "9:00 AM", venue: "Indoor Stadium", desc: "Doubles tournament, best of three games." }
+];
+
+const announcements = [
+  "Registrations close on 8 November 2026.",
+  "Carry your college ID card to every event.",
+  "Robo Race rules are now available at the help desk."
+];
+
+const galleryItems = [
+  { label: "Opening ceremony", color: "#e4572e" },
+  { label: "Hackathon night", color: "#0f7c80" },
+  { label: "Dance finals", color: "#7a3e9d" },
+  { label: "Cricket match", color: "#2e7d4f" },
+  { label: "Band performance", color: "#b8620a" },
+  { label: "Robo Race", color: "#1d1b3a" },
+  { label: "Prize ceremony", color: "#c2185b" },
+  { label: "Crowd at the fest", color: "#3b5bdb" }
+];
+
+const registrations = []; // stores valid registrations in memory
+
+// ---------- Helpers ----------
+const $ = (id) => document.getElementById(id);
+
+function setError(inputId, message) {
+  const input = $(inputId);
+  const err = $(inputId + "Err");
+  err.textContent = message;
+  input.classList.toggle("invalid", message !== "");
+  return message === "";
+}
+
+// ---------- Rendering ----------
+function renderEvents(category = "All") {
+  const grid = $("eventGrid");
+  grid.innerHTML = "";
+  events
+    .filter((e) => category === "All" || e.category === category)
+    .forEach((e) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+        <span class="tag">${e.category}</span>
+        <h3>${e.name}</h3>
+        <p class="meta">${e.date}, ${e.time} at ${e.venue}</p>
+        <p>${e.desc}</p>
+        <button class="btn btn-small" data-id="${e.id}">Register for this event</button>`;
+      grid.appendChild(card);
+    });
+}
+
+function renderSchedule() {
+  $("scheduleBody").innerHTML = events
+    .map((e) => `<tr><td>${e.date}</td><td>${e.time}</td><td>${e.name}</td><td>${e.venue}</td></tr>`)
+    .join("");
+}
+
+function renderAnnouncements() {
+  $("announcements").innerHTML = announcements.map((a) => `<li>${a}</li>`).join("");
+}
+
+function renderGallery() {
+  // Replace the colour with real photos: style="background-image:url('images/photo1.jpg')"
+  $("galleryGrid").innerHTML = galleryItems
+    .map((g) => `<div class="tile" style="background:${g.color}" role="img" aria-label="${g.label}"><span>${g.label}</span></div>`)
+    .join("");
+}
+
+function fillEventSelect() {
+  const select = $("eventSelect");
+  events.forEach((e) => {
+    const opt = document.createElement("option");
+    opt.value = e.name;
+    opt.textContent = `${e.name} (${e.date})`;
+    select.appendChild(opt);
+  });
+}
+
+// ---------- Validation ----------
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const mobilePattern = /^[6-9]\d{9}$/;
+
+function validateRegistration() {
+  const name = $("name").value.trim();
+  const email = $("email").value.trim();
+  const mobile = $("mobile").value.trim();
+
+  const checks = [
+    setError("name", name.length < 3 ? "Enter your full name (at least 3 characters)." : ""),
+    setError("email", !emailPattern.test(email) ? "Enter a valid email address." : ""),
+    setError("mobile", !mobilePattern.test(mobile) ? "Enter a 10-digit mobile number starting with 6 to 9." : ""),
+    setError("dept", $("dept").value === "" ? "Select your department." : ""),
+    setError("year", $("year").value === "" ? "Select your year." : "")
+  ];
+
+  // The event select has id "eventSelect" but its error span is "eventErr"
+  const eventOk = $("eventSelect").value !== "";
+  $("eventErr").textContent = eventOk ? "" : "Select an event.";
+  $("eventSelect").classList.toggle("invalid", !eventOk);
+
+  return checks.every(Boolean) && eventOk;
+}
+
+function validateContact() {
+  const ok1 = setError("cName", $("cName").value.trim().length < 3 ? "Enter your name." : "");
+  const ok2 = setError("cEmail", !emailPattern.test($("cEmail").value.trim()) ? "Enter a valid email address." : "");
+  const ok3 = setError("cMsg", $("cMsg").value.trim().length < 10 ? "Message must be at least 10 characters." : "");
+  return ok1 && ok2 && ok3;
+}
+
+// ---------- Event listeners ----------
+document.addEventListener("DOMContentLoaded", () => {
+  renderEvents();
+  renderSchedule();
+  renderAnnouncements();
+  renderGallery();
+  fillEventSelect();
+
+  // Mobile menu
+  const menuBtn = $("menuBtn");
+  const nav = $("nav");
+  menuBtn.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open);
+  });
+  nav.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") {
+      nav.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Category filter
+  $("filters").addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip");
+    if (!btn) return;
+    document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+    btn.classList.add("active");
+    renderEvents(btn.dataset.cat);
+  });
+
+  // "Register for this event" buttons pre-select the event in the form
+  $("eventGrid").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-id]");
+    if (!btn) return;
+    const ev = events.find((x) => x.id === Number(btn.dataset.id));
+    $("eventSelect").value = ev.name;
+    $("register").scrollIntoView({ behavior: "smooth" });
+    $("name").focus({ preventScroll: true });
+  });
+
+  // Post a new announcement
+  $("announceForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = $("announceText").value.trim();
+    if (text === "") return;
+    announcements.unshift(text);
+    renderAnnouncements();
+    $("announceText").value = "";
+  });
+
+  // Registration submit
+  $("regForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const box = $("regSuccess");
+    if (!validateRegistration()) {
+      box.hidden = true;
+      return;
+    }
+    const data = {
+      name: $("name").value.trim(),
+      email: $("email").value.trim(),
+      mobile: $("mobile").value.trim(),
+      dept: $("dept").value,
+      year: $("year").value,
+      event: $("eventSelect").value
+    };
+    registrations.push(data);
+    box.textContent = `Thank you, ${data.name}. You are registered for ${data.event}. A confirmation will be sent to ${data.email}.`;
+    box.hidden = false;
+    e.target.reset();
+  });
+
+  // Contact submit
+  $("contactForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const box = $("contactSuccess");
+    if (!validateContact()) {
+      box.hidden = true;
+      return;
+    }
+    box.textContent = "Message sent. The organising committee will reply within two working days.";
+    box.hidden = false;
+    e.target.reset();
+  });
+
+  // Clear an error as soon as the user edits the field
+  document.querySelectorAll("input, select, textarea").forEach((el) => {
+    el.addEventListener("input", () => {
+      el.classList.remove("invalid");
+      const err = $(el.id === "eventSelect" ? "eventErr" : el.id + "Err");
+      if (err) err.textContent = "";
+    });
+  });
+});
+</script>
+</body>
+</html>
